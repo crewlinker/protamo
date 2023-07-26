@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package examples.blog.v1;
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+
+// Kind of tag
+enum TagColor {
+  // When no color is specified
+  TAG_COLOR_UNSPECIFIED = 0;
+  // blue tag
+  TAG_COLOR_BLUE = 1;
+}
+
+// VectorImage can be used for blog posts.
+message VectorImage {
+  // src of the vector image.
+  string src = 1;
+}
+
+// BitmapImage visualizer.
+message BitmapImage {
+  // src of the bitmap image.
+  string src = 1;
+}
+
+// BlogPost describes the blog post
+message BlogPost {
+  // Title of the post
+  string title = 1;
+  // author of the blog post
+  BlogAuthor author = 2;
+  // tags fo the flog post
+  repeated Tag tags = 3;
+  // image for the blog post
+  oneof image {
+    // vector image
+    VectorImage vector = 4;
+    // bitmap image
+    BitmapImage bitmap = 5;
+  }
+  // related blog posts
+  map<string, BlogPost> related = 6;
+  // metadata
+  google.protobuf.Struct metadata = 7;
+}
+
+// Tag for a blog post
+message Tag {
+  // slug for the tag
+  string slug = 1;
+  // human readable label
+  string label = 2;
+  // color of tag
+  TagColor color = 3;
+}
+
+// Some partial for a blog author
+message BlogAuthor {
+  // first name
+  string first_name = 1;
+  // last name
+  string last_name = 2;
+  // date of birth
+  google.protobuf.Timestamp date_of_birth = 3;
+}
+
+// Message foo
+message Foo {}

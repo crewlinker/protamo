@@ -1,0 +1,68 @@
+run:
+  skip-dirs:
+    - infra/builds
+linters-settings:
+  cyclop:
+    max-complexity: 20
+  staticcheck:
+    checks: ["all"]
+  stylecheck:
+    checks: ["all"]
+  funlen:
+    lines: 200
+  exhaustive:
+    default-signifies-exhaustive: true
+linters:
+  enable-all: true
+  disable:
+    - exhaustivestruct # deprecated
+    - exhaustruct # CDK has large structs we use partially
+    - golint # deprecated
+    - varcheck # deprecated
+    - structcheck # deprecated
+    - interfacer # deprecated
+    - nosnakecase # deprecated
+    - scopelint # deprecated
+    - ifshort # deprecated
+    - maligned # deprecated
+    - deadcode # deprecated
+    - gochecknoinits # frameworks and magefile use init responsibly
+    - gci # no way to automate this in the vscode so default ordering is good enough
+    - ireturn # our oapi implementations return interfaces all the time
+    - depguard # too agressive
+    # the following is just for the imported protamoattr
+    - varnamelen
+    - wrapcheck
+    - paralleltest
+    - nlreturn
+    - goerr113
+    - wsl
+    - unused
+    - tparallel
+    - gomnd
+    - gochecknoglobals
+    - exhaustive
+    - funlen
+    - gocritic
+    - whitespace
+    - lll
+    - gocognit
+    - cyclop
+    - tagalign
+    - forcetypeassert
+    - nestif
+issues:
+  include:
+    - EXC0015 # warn for lack of package comment
+    - EXC0013 # warn for lack of package comment
+    - EXC0012 # EXC0012 revive: Annoying issue about not having a comment. The rare codebase has such comments
+    - EXC0014 # EXC0014 revive: Annoying issue about not having a comment. The rare codebase has such comments
+  exclude-rules:
+    # Exclude some linters from running on tests files.
+    - path: _test\.go
+      linters:
+        - gocyclo
+        - errcheck
+        - dupl
+        - gosec
+        - testpackage
